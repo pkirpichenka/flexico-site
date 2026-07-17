@@ -12,3 +12,12 @@ document.querySelectorAll('.goal').forEach(btn=>btn.addEventListener('click',()=
 }));
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+document.querySelectorAll('.trainer-filter-button').forEach(button=>button.addEventListener('click',()=>{
+ document.querySelectorAll('.trainer-filter-button').forEach(item=>item.classList.remove('active'));
+ button.classList.add('active');
+ const filter=button.dataset.trainerFilter;
+ document.querySelectorAll('.trainer-card').forEach(card=>{
+  const show=filter==='all'||card.dataset.moods.split(' ').includes(filter);
+  card.classList.toggle('filtered-out',!show);
+ });
+}));
