@@ -21,3 +21,34 @@ document.querySelectorAll('.trainer-filter-button').forEach(button=>button.addEv
   card.classList.toggle('filtered-out',!show);
  });
 }));
+
+// Independent photo strips: dots, keyboard and native touch scrolling.
+document.querySelectorAll('.trainer-carousel').forEach(carousel=>{
+ const track=carousel.querySelector('.trainer-track');
+ const dots=[...carousel.querySelectorAll('.trainer-dot')];
+ let active=0,frame=0;
+ const mark=index=>{
+  active=Math.max(0,Math.min(dots.length-1,index));
+  dots.forEach((dot,i)=>dot.setAttribute('aria-pressed',String(i===active)));
+ };
+ const go=index=>{
+  const next=(index+dots.length)%dots.length;
+  mark(next);
+  track.scrollTo({left:next*track.clientWidth,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+ };
+ dots.forEach((dot,i)=>dot.addEventListener('click',()=>go(i)));
+ carousel.querySelectorAll('[data-step]').forEach(button=>button.addEventListener('click',()=>go(active+Number(button.dataset.step))));
+ track.addEventListener('keydown',event=>{
+  const keys={ArrowLeft:active-1,ArrowRight:active+1,Home:0,End:dots.length-1};
+  if(event.key in keys){event.preventDefault();go(keys[event.key]);}
+ });
+ track.addEventListener('scroll',()=>{
+  cancelAnimationFrame(frame);
+  frame=requestAnimationFrame(()=>{if(track.clientWidth)mark(Math.round(track.scrollLeft/track.clientWidth));});
+ },{passive:true});
+ let width=track.clientWidth;
+ new ResizeObserver(()=>{
+  if(track.clientWidth&&track.clientWidth!==width){width=track.clientWidth;track.scrollTo({left:active*width,behavior:'instant'});}
+ }).observe(track);
+ carousel.querySelector('.trainer-controls').hidden=false;
+});
