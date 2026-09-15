@@ -20,17 +20,18 @@
 
 /* Trainer photo carousel */
 .trainer-carousel{background:#e0e0e0}
-.trainer-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+.trainer-card{min-width:0}
+.trainer-track{width:100%;aspect-ratio:1/1;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
 .trainer-track::-webkit-scrollbar{display:none}
-.trainer-slide{flex:0 0 100%;min-width:0;aspect-ratio:4/3;scroll-snap-align:start;scroll-snap-stop:always;display:flex;align-items:center;justify-content:center}
-.trainer-slide img{display:block;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
-.trainer-controls{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:var(--cream);border-bottom:1px solid var(--line)}
+.trainer-slide{flex:0 0 100%;min-width:0;height:100%;position:relative;scroll-snap-align:start;scroll-snap-stop:always;display:flex;align-items:center;justify-content:center}
+.trainer-slide img{position:absolute;inset:0;display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;object-position:center;user-select:none;-webkit-user-drag:none}
+.trainer-controls{display:flex;align-items:center;justify-content:center;padding:2px 16px;background:var(--cream);border-bottom:1px solid var(--line)}
 .trainer-controls[hidden]{display:none}
-.trainer-arrow{width:44px;height:44px;border:1px solid var(--line);border-radius:50%;background:transparent;color:var(--deep);font-size:22px;cursor:pointer;transition:background .2s}
-.trainer-arrow:hover{background:var(--deep);color:#fff}
 .trainer-dots{display:flex;align-items:center}
 .trainer-dot{width:32px;height:44px;border:0;background:transparent;cursor:pointer;display:grid;place-items:center;padding:0}
 .trainer-dot:before{content:'';width:6px;height:6px;border-radius:20px;background:#aaa2af;transition:width .2s,background .2s}
 .trainer-dot[aria-pressed="true"]:before{width:22px;background:#62c51c}
 .trainer-track:focus-visible,.trainer-controls button:focus-visible{outline:2px solid #62c51c;outline-offset:-3px}
-@media(prefers-reduced-motion:reduce){.trainer-card,.trainer-arrow,.trainer-dot:before{transition:none}}
+@media(prefers-reduced-motion:reduce){.trainer-card,
+/* Match placeholder cards to the same square photo frame. */
+.trainer-portrait{height:auto;aspect-ratio:1/1}

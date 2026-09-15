@@ -37,7 +37,6 @@ document.querySelectorAll('.trainer-carousel').forEach(carousel=>{
   track.scrollTo({left:next*track.clientWidth,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
  };
  dots.forEach((dot,i)=>dot.addEventListener('click',()=>go(i)));
- carousel.querySelectorAll('[data-step]').forEach(button=>button.addEventListener('click',()=>go(active+Number(button.dataset.step))));
  track.addEventListener('keydown',event=>{
   const keys={ArrowLeft:active-1,ArrowRight:active+1,Home:0,End:dots.length-1};
   if(event.key in keys){event.preventDefault();go(keys[event.key]);}
